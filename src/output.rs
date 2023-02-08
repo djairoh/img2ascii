@@ -5,13 +5,16 @@ use std::process::exit;
 use log::error;
 use crate::model_rgb_ascii::Ascii;
 
-//todo: take into consideration the in_colour flag
 pub fn print_terminal(art: Vec<Vec<Ascii>>, in_colour: bool) {
     for line in art {
         for ascii in line {
-            print!("{}", ascii.char)
+            if in_colour {
+                print!("{}{}", termion::color::Fg(termion::color::Rgb(ascii.rgb.r, ascii.rgb.g, ascii.rgb.b)), ascii.char);
+            } else {
+                print!("{}", ascii.char);
+            }
         }
-        println!();
+        println!("{}", termion::style::Reset);
     }
 }
 
