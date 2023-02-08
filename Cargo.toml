@@ -10,5 +10,5 @@ env_logger = "0.10.*"
 dotenvy = "0.15.*"
 log = "0.4.*"
 clap = { version = "4.1.*", features = ["derive"] }
-image = "0.24.*"
+image = { version = "0.24.*", features = ["webp-encoder"] }
 termion = "2.0.*"
