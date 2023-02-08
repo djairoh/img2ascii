@@ -34,8 +34,6 @@ pub struct Cli {
     #[arg(short = 'f', long)]
     pub full: bool,
     /// use a custom threshold when converting to braille
-    ///
-    /// default is 128
     #[arg(default_value_t = 128, long)]
     pub threshold: u8,
     /// use a custom character map for output
