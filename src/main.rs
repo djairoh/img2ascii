@@ -16,7 +16,6 @@ mod model_rgb_ascii;
 //todo: general
 /* Documentation
  * Readme
- * https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust
  */
 
 fn main() {

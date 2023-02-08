@@ -10,7 +10,7 @@ pub fn print_terminal(art: Vec<Vec<Ascii>>, in_colour: bool) {
     for line in art {
         for ascii in line {
             if in_colour {
-                print!("{}{}", color::Fg(color::Rgb(ascii.rgb.r, ascii.rgb.g, ascii.rgb.b)), ascii.char);
+                print!("{}{}", color::Fg(color::Rgb(ascii.rgb[0], ascii.rgb[1], ascii.rgb[2])), ascii.char);
             } else {
                 print!("{}", ascii.char);
             }

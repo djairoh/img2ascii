@@ -1,5 +1,5 @@
 use termion::terminal_size;
-use log::{debug, error, trace};
+use log::{debug, error};
 use std::process::exit;
 use std::path::PathBuf;
 use image::DynamicImage;
@@ -20,20 +20,20 @@ fn get_terminal_size() -> (u32, u32) {
 
 pub fn resize_image(img: DynamicImage, full: bool, opt_w: Option<u32>) -> DynamicImage {
     let (mut w, mut h) = (1,1);
+    let (max_w, max_h) = get_terminal_size();
     if full {
-        w = get_terminal_size().0;
+        w = max_w-1;
         h = (img.height() as f32 * w as f32 / img.width() as f32 * 0.5) as u32;
     } else if let Some(act_w) = opt_w {
         w = act_w;
         h = (img.height() as f32 * w as f32 / img.width() as f32 * 0.5) as u32;
     } else {
-        let (max_w, max_h) = get_terminal_size();
-        if max_h*max_w/2 > img.height()*img.width() {
-            h = max_h;
-            w = (img.width() as f32 * h as f32 / img.height() as f32 * 2.0) as u32;
-        } else {
-            w = max_w;
-            h = (img.height() as f32 * w as f32 / img.height() as f32 * 0.5) as u32;
+        h = max_h-1;
+        w = (img.width() as f32 * h as f32 / img.height() as f32 * 2.0) as u32;
+
+        if w >= max_w {
+            w = max_w-1;
+            h = (img.height() as f32 * w as f32 / img.width() as f32 * 0.5) as u32;
         }
     }
     debug!("Resizing image to (w|h): {} | {}", w, h);
