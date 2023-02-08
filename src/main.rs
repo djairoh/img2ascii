@@ -14,11 +14,6 @@ mod ascii_manipulation;
 mod output;
 mod model_rgb_ascii;
 
-//todo: general
-/* Readme
- */
-
-
 /// This is the main function.
 ///
 /// It drives the CLI module, calls the appropriate convert functions and directs output.
