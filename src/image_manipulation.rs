@@ -1,5 +1,5 @@
 //! This module contains all functions related to image manipulation.
-use termion::terminal_size;
+use crossterm::terminal;
 use log::{debug, error};
 use std::process::exit;
 use std::path::PathBuf;
@@ -11,7 +11,7 @@ use image::imageops::FilterType;
 /// returns:
 /// (u32, u32) representing the (width, length) of stdout
 fn get_terminal_size() -> (u32, u32) {
-    let size = terminal_size();
+    let size = terminal::size();
     match size {
         Ok(size) => {
             (size.0 as u32, size.1 as u32)

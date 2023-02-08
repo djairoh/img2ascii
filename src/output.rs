@@ -1,10 +1,11 @@
 //! This module contains functions related to output.
 use std::fs::File;
-use std::io::Write;
+use std::io::{stdout, Write};
 use std::path::PathBuf;
 use std::process::exit;
+use crossterm::execute;
+use crossterm::style::{Color, SetForegroundColor, Print, ResetColor};
 use log::error;
-use termion::{color, style};
 use crate::model_rgb_ascii::Ascii;
 
 /// This function prints ASCII art to stdout.
@@ -16,12 +17,15 @@ pub fn print_terminal(art: Vec<Vec<Ascii>>, in_colour: bool) {
     for line in art {
         for ascii in line {
             if in_colour {
-                print!("{}{}", color::Fg(color::Rgb(ascii.rgb[0], ascii.rgb[1], ascii.rgb[2])), ascii.char);
+                let _ = execute!(stdout(),
+                    SetForegroundColor(Color::Rgb {r: ascii.rgb[0], g: ascii.rgb[1], b: ascii.rgb[2]}),
+                    Print(ascii.char),
+                    ResetColor);
             } else {
                 print!("{}", ascii.char);
             }
         }
-        println!("{}", style::Reset);
+        println!();
     }
 }
 
