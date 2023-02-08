@@ -61,14 +61,14 @@ impl Cli {
         debug!("braille: {}", self.braille);
         debug!("debug: {}", self.debug);
         debug!("full: {}", self.full);
-        if let Some(map) = self.map.clone() {
+        if let Some(map) = &self.map {
             debug!("map: \"{}\"", map);
         } else {
             debug!("map: None");
         }
         debug!("width: {}", self.width.unwrap_or(u32::MAX));
         debug!("image: {}", self.image.display());
-        if let Some(output) = self.output.clone() {
+        if let Some(output) = &self.output {
             debug!("output: {}", output.display());
         } else {
             debug!("output: None");
@@ -76,24 +76,24 @@ impl Cli {
     }
 
     pub fn validate(&self) {
-        if !file_exists(self.image.clone()) {
+        if !file_exists(&self.image) {
             error!("Input file \"{}\" does not exist!", self.image.display());
             exit(1);
         }
 
-        if !is_image(self.image.clone()) {
+        if !is_image(&self.image) {
             error!("Input file \"{}\" is not an image!", self.image.display());
             exit(1);
         }
 
-        if let Some(output) = self.output.clone() {
-            if file_exists(output.clone()) {
+        if let Some(output) = &self.output {
+            if file_exists(&output) {
                 error!("Output file \"{}\" already exists!", output.display());
                 exit(1);
             }
         }
 
-        if let Some(map) = self.map.clone() {
+        if let Some(map) = &self.map {
             if !map.is_ascii() {
                 error!("map can not contain non-ASCII characters!");
                 exit(1);
@@ -111,11 +111,11 @@ impl Cli {
 /// This function checks if a given file is an image
 ///
 /// arguments:
-/// path: PathBuf - path to the file to check
+/// path: &PathBuf - path to the file to check
 ///
 /// returns:
 /// boolean indicating if file is an image or not
-fn is_image(path: PathBuf) -> bool {
+fn is_image(path: &PathBuf) -> bool {
     let ext = path.extension();
     match ext {
         Some(ext) => {
@@ -132,11 +132,11 @@ fn is_image(path: PathBuf) -> bool {
 /// This function checks if a given file exists
 ///
 /// arguments:
-/// path: PathBuf - path to the file to check
+/// path: &PathBuf - path to the file to check
 ///
 /// returns:
 /// boolean indicating if the file exists or not
-fn file_exists(path: PathBuf) -> bool {
+fn file_exists(path: &PathBuf) -> bool {
     match path.try_exists() {
         Ok(bool) => bool,
         Err(e) => {
