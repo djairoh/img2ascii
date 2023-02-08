@@ -70,7 +70,3 @@ pub fn to_braille_ascii(mut image: DynamicImage, threshold: u8) -> Vec<Vec<Ascii
     }
     out
 }
-pub fn to_box_ascii(image: DynamicImage) -> Vec<Vec<Ascii>> {
-    //todo: this one
-    vec![vec![Ascii::new(0, 0, 0,0 )]]
-}
