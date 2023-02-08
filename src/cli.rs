@@ -49,7 +49,7 @@ pub struct Cli {
     pub width: Option<u32>,
     /// Save the output to a file, instead of printing to terminal
     ///
-    /// Incompatible with '--colour' and '--braille'
+    /// Incompatible with '--colour'
     #[arg(short = 'o', long = "output")]
     pub output: Option<PathBuf>,
 }
