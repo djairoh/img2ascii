@@ -1,5 +1,5 @@
 use termion::terminal_size;
-use log::{debug, error};
+use log::{debug, error, trace};
 use std::process::exit;
 use std::path::PathBuf;
 use image::DynamicImage;
@@ -18,7 +18,7 @@ fn get_terminal_size() -> (u32, u32) {
     }
 }
 
-pub fn resize_image(img: DynamicImage, full: bool, opt_w: Option<u32>) -> DynamicImage {
+pub fn resize_image(img: DynamicImage, full: bool, braille: bool, opt_w: Option<u32>) -> DynamicImage {
     let (mut w, mut h) = (1,1);
     let (max_w, max_h) = get_terminal_size();
     if full {
@@ -35,6 +35,12 @@ pub fn resize_image(img: DynamicImage, full: bool, opt_w: Option<u32>) -> Dynami
             w = max_w-1;
             h = (img.height() as f32 * w as f32 / img.width() as f32 * 0.5) as u32;
         }
+    }
+
+    //braille has a 2x4 character map
+    if braille {
+        w *= 2;
+        h *= 4;
     }
     debug!("Resizing image to (w|h): {} | {}", w, h);
     img.resize_exact(w, h, FilterType::CatmullRom)

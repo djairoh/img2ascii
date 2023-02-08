@@ -28,12 +28,12 @@ fn main() {
 
     //preprocess image
     let mut img = open_image(cli.image);
-    img = resize_image(img, cli.full, cli.width);
+    img = resize_image(img, cli.full, cli.braille, cli.width);
 
     //converting to ASCII
     let out: Vec<Vec<Ascii>>;
     if cli.braille {
-        out = to_braille_ascii(img);
+        out = to_braille_ascii(img, cli.threshold);
     } else if cli.complex {
         out = to_complex_ascii(img);
     } else if let Some(map) = cli.map {
