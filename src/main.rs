@@ -3,11 +3,13 @@ use crate::ascii_manipulation::*;
 use crate::cli::Cli;
 use crate::output::*;
 use crate::image_manipulation::*;
+use crate::model_rgb_ascii::Ascii;
 
 mod cli;
 mod image_manipulation;
 mod ascii_manipulation;
 mod output;
+mod model_rgb_ascii;
 
 //todo: general
 /* Documentation
@@ -28,7 +30,7 @@ fn main() {
     img = resize_image(img, cli.full, cli.width);
 
     //converting to ASCII
-    let out: Vec<String>;
+    let out: Vec<Vec<Ascii>>;
     if cli.braille {
         out = to_braille_ascii(img);
     } else if cli.complex {
@@ -45,11 +47,4 @@ fn main() {
     } else {
         print_terminal(out, cli.colour);
     }
-
-    //todo:
-    /* function that converts image to braille (if -b)
-     * something about printing in colour
-     * output to file
-     */
-
 }
