@@ -1,5 +1,5 @@
 use std::process::exit;
-use image::{DynamicImage, GenericImageView, imageops, Rgba};
+use image::{DynamicImage, GenericImageView, Rgba};
 use log::error;
 use crate::model_rgb_ascii::Ascii;
 
@@ -43,7 +43,7 @@ pub fn to_custom_ascii(char_map: String, image: DynamicImage) -> Vec<Vec<Ascii>>
     to_ascii(char_map, image)
 }
 
-pub fn to_braille_ascii(mut image: DynamicImage, threshold: u8) -> Vec<Vec<Ascii>> {
+pub fn to_braille_ascii(image: DynamicImage, threshold: u8) -> Vec<Vec<Ascii>> {
     let mut str: Vec<Ascii> = Vec::new();
     let mut out: Vec<Vec<Ascii>> = Vec::new();
 

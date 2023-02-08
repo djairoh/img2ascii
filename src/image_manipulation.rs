@@ -1,5 +1,5 @@
 use termion::terminal_size;
-use log::{debug, error, trace};
+use log::{debug, error};
 use std::process::exit;
 use std::path::PathBuf;
 use image::DynamicImage;
@@ -19,6 +19,7 @@ fn get_terminal_size() -> (u32, u32) {
 }
 
 pub fn resize_image(img: DynamicImage, full: bool, braille: bool, opt_w: Option<u32>) -> DynamicImage {
+    //compiler complains that these v values are never read; this is true, however they are necessary because otherwise the program simply will not compile.
     let (mut w, mut h) = (1,1);
     let (max_w, max_h) = get_terminal_size();
     if full {
