@@ -1,3 +1,4 @@
+//! This module contains all functions related to image manipulation.
 use termion::terminal_size;
 use log::{debug, error};
 use std::process::exit;
@@ -5,6 +6,10 @@ use std::path::PathBuf;
 use image::DynamicImage;
 use image::imageops::FilterType;
 
+/// This function returns the (width, length) of stdout
+///
+/// returns:
+/// (u32, u32) representing the (width, length) of stdout
 fn get_terminal_size() -> (u32, u32) {
     let size = terminal_size();
     match size {
@@ -18,6 +23,18 @@ fn get_terminal_size() -> (u32, u32) {
     }
 }
 
+/// This function resizes a given image to one of multiple options.
+///
+/// if full, braille and opt_w are all false/None, resizes according to height of stdout.
+///
+/// arguments:
+/// img: DynamicImage - the image to be resized
+/// full: bool - if true, resizes to stdout width
+/// braille: bool - if true, increases size of image by 2x4, for braille processing
+/// opt_w: Option<u32> - if Some, resizes to the given width
+///
+/// returns:
+/// DynamicImage, resized
 pub fn resize_image(img: DynamicImage, full: bool, braille: bool, opt_w: Option<u32>) -> DynamicImage {
     //compiler complains that these v values are never read; this is true, however they are necessary because otherwise the program simply will not compile.
     let (mut w, mut h) = (1,1);
@@ -47,6 +64,13 @@ pub fn resize_image(img: DynamicImage, full: bool, braille: bool, opt_w: Option<
     img.resize_exact(w, h, FilterType::CatmullRom)
 }
 
+/// This function opens an image into an ImageBuffer.
+///
+/// arguments:
+/// path: PathBuf - Path to the image file to open
+///
+/// returns:
+/// DynamicImage buffer
 pub fn open_image(path: PathBuf) -> DynamicImage {
     let img = image::open(path);
     match img {

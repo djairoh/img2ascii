@@ -1,3 +1,4 @@
+//! Driver module.
 #![feature(file_create_new)]
 
 use clap::Parser;
@@ -14,10 +15,13 @@ mod output;
 mod model_rgb_ascii;
 
 //todo: general
-/* Documentation
  * Readme
  */
 
+
+/// This is the main function.
+///
+/// It drives the CLI module, calls the appropriate convert functions and directs output.
 fn main() {
     std::env::set_var("RUST_LOG", "info");
 
