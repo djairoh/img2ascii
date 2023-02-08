@@ -92,6 +92,13 @@ impl Cli {
                 exit(1);
             }
         }
+
+        if let Some(map) = self.map.clone() {
+            if !map.is_ascii() {
+                error!("map can not contain non-ASCII characters!");
+                exit(1);
+            }
+        }
     }
 
     pub fn init(&self) {
