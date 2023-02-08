@@ -1,8 +1,8 @@
 use clap::Parser;
-use image::imageops::FilterType;
-use crate::ascii_manipulation::to_simple_ascii;
+use crate::ascii_manipulation::*;
 use crate::cli::Cli;
-use crate::output::print_terminal;
+use crate::output::*;
+use crate::image_manipulation::*;
 
 mod cli;
 mod image_manipulation;
@@ -10,7 +10,9 @@ mod ascii_manipulation;
 mod output;
 
 //todo: general
-/* https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust
+/* Documentation
+ * Readme
+ * https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust
  */
 
 fn main() {
@@ -21,21 +23,33 @@ fn main() {
     cli.init();
     cli.validate();
 
-    let mut img = image_manipulation::open_image(cli.image);
-    let w = image_manipulation::get_size(cli.width, img.width());
+    //preprocess image
+    let mut img = open_image(cli.image);
+    img = resize_image(img, cli.full, cli.width);
 
-    //todo: change logic to include -full flag for max width, otherwise use max height?
-    let h: u32 = (img.height() as f32 * w as f32 / img.width() as f32 * 0.5) as u32;
-    img = img.resize_exact(w as u32, h, FilterType::CatmullRom);
+    //converting to ASCII
+    let out: Vec<String>;
+    if cli.braille {
+        out = to_braille_ascii(img);
+    } else if cli.complex {
+        out = to_complex_ascii(img);
+    } else if let Some(map) = cli.map {
+        out = to_custom_ascii(map, img);
+    } else {
+        out = to_simple_ascii(img);
+    }
 
-    let out = to_simple_ascii(img);
-
-    print_terminal(out);
+    //output
+    if let Some(output) = cli.output {
+        print_file(out, output);
+    } else {
+        print_terminal(out, cli.colour);
+    }
 
     //todo:
     /* function that converts image to braille (if -b)
      * something about printing in colour
-     * a function to let the user define a custom map
+     * output to file
      */
 
 }

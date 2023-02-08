@@ -3,7 +3,6 @@ use std::path::PathBuf;
 use std::process::exit;
 use clap::Parser;
 use log::{debug, error};
-use image;
 
 /// Convert an image to ASCII art and print it to the terminal.
 ///
@@ -11,23 +10,40 @@ use image;
 #[derive(Parser)]
 pub struct Cli {
     /// Use a larger range of characters
+    ///
+    /// Takes priority over '--map'
     #[arg(short = 'c', long)]
     pub complex: bool,
     /// Display ASCII art in full colour
     #[arg(short = 'C', long)]
     pub colour: bool,
     /// Use braille characters instead of ASCII
+    ///
+    /// Takes priority over '--complex' and '--map'
     #[arg(short = 'b', long)]
     pub braille: bool,
     /// Print debugging information
     #[arg(short = 'd', long)]
     pub debug: bool,
+    /// use the full width of the terminal
+    ///
+    /// Takes priority over '--width'
+    #[arg(short = 'f', long)]
+    pub full: bool,
+    /// use a custom character map for output
+    ///
+    /// The character map is interpreted from dark(first character) to light(last character).
+    /// The map can be any size, but at least 2 characters is recommended.
+    #[arg(short = 'M', long)]
+    pub map: Option<String>,
     /// Image path
     pub image: PathBuf,
-    #[arg(short = 'w', long)]
     /// Set the width of the output, instead of using terminal width
-    pub width: Option<u16>,
+    #[arg(short = 'w', long)]
+    pub width: Option<u32>,
     /// Save the output to a file, instead of printing to terminal
+    ///
+    /// Incompatible with '--colour' and '--braille'
     #[arg(short = 'o', long = "output")]
     pub output: Option<PathBuf>,
 }
@@ -39,7 +55,13 @@ impl Cli {
         debug!("colour: {}", self.colour);
         debug!("braille: {}", self.braille);
         debug!("debug: {}", self.debug);
-        debug!("width: {}", self.width.unwrap_or(u16::MAX));
+        debug!("full: {}", self.full);
+        if let Some(map) = self.map.clone() {
+            debug!("map: \"{}\"", map);
+        } else {
+            debug!("map: None");
+        }
+        debug!("width: {}", self.width.unwrap_or(u32::MAX));
         debug!("image: {}", self.image.display());
         if let Some(output) = self.output.clone() {
             debug!("output: {}", output.display());

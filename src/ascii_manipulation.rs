@@ -1,4 +1,6 @@
+use std::process::exit;
 use image::{DynamicImage, GenericImageView, Rgba};
+use log::error;
 
 //todo: consider how to take care of the a channel => do we want to render that as background?
 fn get_color(pixel: (u32, u32, Rgba<u8>)) -> u8 {
@@ -8,7 +10,6 @@ fn get_color(pixel: (u32, u32, Rgba<u8>)) -> u8 {
 }
 
 fn to_ascii(char_map: String, image: DynamicImage) -> Vec<String> {
-    //todo: add color support
     let l = char_map.len() as f32;
     let mut str = String::new();
     let mut out: Vec<String> = Vec::new();
@@ -39,6 +40,11 @@ pub fn to_braille_ascii(image: DynamicImage) -> Vec<String> {
 }
 
 pub fn to_custom_ascii(char_map: String, image: DynamicImage) -> Vec<String> {
-    //todo: this
-    vec!["not implemented".to_owned()]
+    if char_map.is_empty() {
+        error!("Custom map can not be empty!");
+        exit(1);
+    }
+    to_ascii(char_map, image)
 }
+
+//todo: replace Vec<String> with a custom struct containing rgb information as well as character (for coloured output)
