@@ -15,7 +15,7 @@ mod output;
 mod model_rgb_ascii;
 
 //todo: general
- * Readme
+/* Readme
  */
 
 
