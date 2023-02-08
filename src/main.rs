@@ -1,3 +1,5 @@
+#![feature(file_create_new)]
+
 use clap::Parser;
 use crate::ascii_manipulation::*;
 use crate::cli::Cli;
