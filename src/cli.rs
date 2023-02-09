@@ -18,8 +18,13 @@ pub struct Cli {
     #[arg(short = 'c', long)]
     pub complex: bool,
     /// Display ASCII art in full colour
+    ///
+    /// Takes priority over '--grayscale'
     #[arg(short = 'C', long)]
     pub colour: bool,
+    /// Display ASCII art in grayscale
+    #[arg(short= 'g', long)]
+    pub grayscale: bool,
     /// Use braille characters instead of ASCII
     ///
     /// Takes priority over '--complex' and '--map'
@@ -49,7 +54,7 @@ pub struct Cli {
     pub width: Option<u32>,
     /// Save the output to a file, instead of printing to terminal
     ///
-    /// Incompatible with '--colour'
+    /// Incompatible with '--colour' and '--grayscale'
     #[arg(short = 'o', long = "output")]
     pub output: Option<PathBuf>,
 }
@@ -62,6 +67,7 @@ impl Cli {
     pub fn debug_print(&self) {
         debug!("complex: {}", self.complex);
         debug!("colour: {}", self.colour);
+        debug!("grayscale: {}", self.grayscale);
         debug!("braille: {}", self.braille);
         debug!("debug: {}", self.debug);
         debug!("full: {}", self.full);

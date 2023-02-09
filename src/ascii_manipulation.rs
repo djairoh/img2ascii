@@ -116,7 +116,7 @@ pub fn to_braille_ascii(image: DynamicImage, threshold: u8) -> Vec<Vec<Ascii>> {
                     }
                 }
             }
-            str.push(Ascii { char: char::from_u32(braille_value).unwrap(), rgb: [(r/8) as u8, (g/8) as u8, (b/8) as u8] });
+            str.push(Ascii::new_with_char(char::from_u32(braille_value).unwrap(), (r/8) as u8, (g/8) as u8,  (b/8) as u8));
             }
         out.push(str);
         str = Vec::new();

@@ -13,12 +13,17 @@ use crate::model_rgb_ascii::Ascii;
 /// arguments:
 /// art: Vec<Vec<Ascii>> - vector of vectors representing the art
 /// in_colour: bool - whether to print in colour or as hard white
-pub fn print_terminal(art: Vec<Vec<Ascii>>, in_colour: bool) {
+pub fn print_terminal(art: Vec<Vec<Ascii>>, in_colour: bool, grayscale: bool) {
     for line in art {
         for ascii in line {
             if in_colour {
                 let _ = execute!(stdout(),
                     SetForegroundColor(Color::Rgb {r: ascii.rgb[0], g: ascii.rgb[1], b: ascii.rgb[2]}),
+                    Print(ascii.char),
+                    ResetColor);
+            } else if grayscale {
+                let _ = execute!(stdout(),
+                    SetForegroundColor(Color::Rgb {r: ascii.col_depth, g: ascii.col_depth, b: ascii.col_depth}),
                     Print(ascii.char),
                     ResetColor);
             } else {

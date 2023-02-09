@@ -14,6 +14,12 @@ mod ascii_manipulation;
 mod output;
 mod model_rgb_ascii;
 
+//todo:
+/* custom background color, print font in white
+ * --formats flag
+ * --version flag
+ */
+
 /// This is the main function.
 ///
 /// It drives the CLI module, calls the appropriate convert functions and directs output.
@@ -45,6 +51,6 @@ fn main() {
     if let Some(output) = cli.output {
         print_file(out, output);
     } else {
-        print_terminal(out, cli.colour);
+        print_terminal(out, cli.colour, cli.grayscale);
     }
 }
