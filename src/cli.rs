@@ -22,7 +22,14 @@ pub struct Cli {
     /// Takes priority over '--grayscale'
     #[arg(short = 'C', long)]
     pub colour: bool,
+    /// Colour the background instead of the foreground
+    ///
+    /// Requires '--colour' or '--grayscale' to be passed
+    #[arg(long)]
+    pub background: bool,
     /// Display ASCII art in grayscale
+    ///
+    /// incompatible with '--color'
     #[arg(short= 'g', long)]
     pub grayscale: bool,
     /// Use braille characters instead of ASCII
@@ -67,6 +74,7 @@ impl Cli {
     pub fn debug_print(&self) {
         debug!("complex: {}", self.complex);
         debug!("colour: {}", self.colour);
+        debug!("background: {}", self.background);
         debug!("grayscale: {}", self.grayscale);
         debug!("braille: {}", self.braille);
         debug!("debug: {}", self.debug);
