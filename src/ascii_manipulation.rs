@@ -36,8 +36,10 @@ fn to_ascii(char_map: String, image: DynamicImage) -> Vec<Vec<Ascii>> {
     let mut out: Vec<Vec<Ascii>> = Vec::new();
 
     for pixel in image.pixels() {
-        let ch = char_map.as_bytes()[((get_color(pixel.2) as f32-1.0)/255f32 * l) as usize];
-        str.push(Ascii::new(ch, pixel.2[0], pixel.2[1], pixel.2[2]));
+        let mut ascii = Ascii::new(0, pixel.2[0], pixel.2[1], pixel.2[2]);
+        let ch = char_map.as_bytes()[((ascii.col_depth as f32-1.0)/255f32 * l) as usize];
+        ascii.char = char::from(ch);
+        str.push(ascii);
 
         if pixel.0 == image.width()-1 {
             out.push(str);
