@@ -6,6 +6,8 @@ It can be configured using flags on the command line, a few options of which are
  * Complex ASCII (using the map ``` .'`^",:;Il!i><~+_-?][}{1)(|\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$```)
  * [Braille symbols](https://en.wikipedia.org/wiki/Braille_Patterns)
  * Custom character maps (through the `--map` flag)
+ * Output in full colour
+ * Output in grayscale
 
 # Prerequisites
 * [Rust](https://www.rust-lang.org/) (building from source only)
@@ -32,6 +34,8 @@ Of course the output can be customized, by using one (or more) flags.
 ## options
  * -c, --complex: uses the extended character map
  * -C, --colour: Display ASCII art in full 24-bit colour
+ * --background: Colour the background instead of the foreground
+ * -g, --grayscale: Display ASCII art in grayscale
  * -b, --braille: Use braille characters instead of a character map
  * -d, --debug: Print debugging information
  * -f, --full: use the full width of the terminal, instead of fitting the image to the terminal dimensions
@@ -47,13 +51,18 @@ When two or more of these are entered in the same command,
 the program uses the one with the highest precedence, in the order
 `braille > complex > map`.
 
-The flags `--output` and `--colour` also conflict. 
+The flags `--output`, `--colour` and `--grayscale` also conflict. 
 When both are entered, the flag `--output` takes precedence
 (leading to a simple txt file).
 
-Lastly, the flags `--full` and `--width` are mutually exclusive.
+The flags `--full` and `--width` are mutually exclusive.
 When both are entered, the flag `-full` will be applied
 (`full > width`).
+
+Lastly, the flags `--colour` and `--grayscale` are not mutually applicable.
+When both are entered, the flag `--colour` will be applied.
+
+Note also that the `--background` flag requires either `--colour` or `--grayscale` to do anything.
 
 # Documentation
 The program has been documented with RustDoc,
